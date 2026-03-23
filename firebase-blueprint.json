@@ -1,0 +1,31 @@
+{
+  "entities": {
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "A saved blog post with metadata and generated content.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the post." },
+        "userId": { "type": "string", "description": "The UID of the user who saved the post." },
+        "userEmail": { "type": "string", "description": "The email of the user who saved the post." },
+        "topic": { "type": "string", "description": "The original topic/prompt for the post." },
+        "title": { "type": "string", "description": "The generated title of the blog post." },
+        "blogPostHtml": { "type": "string", "description": "The full HTML content of the blog post." },
+        "keywords": { "type": "array", "items": { "type": "string" }, "description": "SEO keywords." },
+        "seoTitles": { "type": "array", "items": { "type": "string" }, "description": "Suggested SEO titles." },
+        "imagePrompt": { "type": "string", "description": "Prompt used for image generation." },
+        "altText": { "type": "string", "description": "Alt text for the featured image." },
+        "imageBase64": { "type": "string", "description": "Base64 encoded featured image data." },
+        "thumbnailDataUrl": { "type": "string", "description": "Data URL for the generated thumbnail." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the post was saved." }
+      },
+      "required": ["userId", "topic", "title", "blogPostHtml", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/blogPosts/{postId}": {
+      "schema": "BlogPost",
+      "description": "Collection of saved blog posts."
+    }
+  }
+}

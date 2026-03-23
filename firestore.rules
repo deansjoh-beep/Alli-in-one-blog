@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: blogPosts
+    // Document ID: auto-generated
+    // Fields:
+    //   - userId: string (required) - The UID of the user who saved the post.
+    //   - userEmail: string (required) - The email of the user who saved the post.
+    //   - topic: string (required) - The original topic/prompt for the post.
+    //   - title: string (required) - The generated title of the blog post.
+    //   - blogPostHtml: string (required) - The full HTML content of the blog post.
+    //   - keywords: list (optional) - SEO keywords.
+    //   - seoTitles: list (optional) - Suggested SEO titles.
+    //   - imagePrompt: string (optional) - Prompt used for image generation.
+    //   - altText: string (optional) - Alt text for the featured image.
+    //   - imageBase64: string (optional) - Base64 encoded featured image data.
+    //   - thumbnailDataUrl: string (optional) - Data URL for the generated thumbnail.
+    //   - createdAt: timestamp (required) - Timestamp when the post was saved.
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAllowedEmail() {
+      return isAuthenticated() && 
+        (request.auth.token.email == "dean.sj.oh@gmail.com" || 
+         request.auth.token.email == "dean.uitrading@gmail.com");
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidBlogPost(data) {
+      return data.userId is string &&
+             data.userEmail is string &&
+             data.topic is string &&
+             data.title is string &&
+             data.blogPostHtml is string &&
+             data.createdAt is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+    match /blogPosts/{postId} {
+      allow read, delete: if isAllowedEmail() && isOwner(resource.data.userId);
+      allow create: if isAllowedEmail() && isOwner(request.resource.data.userId) && isValidBlogPost(request.resource.data);
+      allow update: if false; // Posts are immutable for now
+    }
+  }
+}
