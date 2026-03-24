@@ -2,18 +2,8 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { ColorTheme, GeneratedContent, SupplementaryInfo } from '../types';
 
 const getAi = () => {
-  console.log("DEBUG: import.meta:", import.meta);
-  console.log("DEBUG: import.meta.env:", import.meta.env);
-  
-  // Try to find the API key by logging all keys in import.meta.env
-  if (typeof import.meta !== 'undefined' && import.meta.env) {
-    Object.keys(import.meta.env).forEach(key => {
-      console.log(`DEBUG: Env Key: ${key}, Value: ${import.meta.env[key]}`);
-    });
-  }
-
-  // Access the API key from import.meta.env as confirmed by debug logs
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+  // Access the API key from environment variables
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || process.env.API_KEY;
   if (!apiKey) {
     throw new Error("API_KEY environment variable is not set.");
   }
