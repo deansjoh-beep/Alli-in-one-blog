@@ -997,9 +997,10 @@ function App() {
     setAuthError(null);
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
-      setAuthError('로그인 중 오류가 발생했습니다.');
+      const errorCode = error?.code || 'unknown';
+      setAuthError(`로그인 중 오류가 발생했습니다. (코드: ${errorCode})`);
     }
   };
 
