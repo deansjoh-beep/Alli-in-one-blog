@@ -2,13 +2,8 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { ColorTheme, GeneratedContent, SupplementaryInfo } from '../types';
 
 const getAi = () => {
-  console.log("DEBUG: process.env.API_KEY:", process.env.API_KEY);
-  console.log("DEBUG: process.env.GEMINI_API_KEY:", process.env.GEMINI_API_KEY);
-  console.log("DEBUG: import.meta.env:", typeof import.meta !== 'undefined' ? import.meta.env : 'undefined');
-
-  // Use process.env directly as the platform injects these at runtime
-  // Fallback to import.meta.env for client-side access if needed
-  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY || (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_GEMINI_API_KEY);
+  // Access the API key from import.meta.env as confirmed by debug logs
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
     throw new Error("API_KEY environment variable is not set.");
   }
