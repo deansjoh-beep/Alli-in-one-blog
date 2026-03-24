@@ -3,9 +3,10 @@ import type { WeatherData, SearchSource, KeywordData, BlogPostData, NaverNewsDat
 import { GoogleGenAI, Type } from "@google/genai";
 
 const getAi = () => {
-  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+  // Access the API key from environment variables (exposed via Vite's define)
+  const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
-    throw new Error("API_KEY environment variable is not set.");
+    throw new Error("API_KEY environment variable is not set. Please go to the Settings menu and select an API key.");
   }
   return new GoogleGenAI({ apiKey });
 };

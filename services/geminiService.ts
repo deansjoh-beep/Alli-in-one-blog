@@ -2,15 +2,10 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { ColorTheme, GeneratedContent, SupplementaryInfo } from '../types';
 
 const getAi = () => {
-  console.log("DEBUG: import.meta.env keys:", Object.keys(import.meta.env));
-  console.log("DEBUG: VITE_GEMINI_API_KEY:", import.meta.env.VITE_GEMINI_API_KEY);
-  console.log("DEBUG: GEMINI_API_KEY:", process.env.GEMINI_API_KEY);
-  console.log("DEBUG: API_KEY:", process.env.API_KEY);
-
-  // Access the API key from environment variables
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || process.env.API_KEY;
+  // Access the API key from environment variables (exposed via Vite's define)
+  const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
-    throw new Error("API_KEY environment variable is not set.");
+    throw new Error("API_KEY environment variable is not set. Please go to the Settings menu and select an API key.");
   }
   return new GoogleGenAI({ apiKey });
 };
