@@ -2,8 +2,8 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { ColorTheme, GeneratedContent, SupplementaryInfo } from '../types';
 
 const getAi = () => {
-  console.log("Environment variables:", process.env);
-  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
+  // Use process.env directly as the platform injects these at runtime
+  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
   if (!apiKey) {
     throw new Error("API_KEY environment variable is not set.");
   }
