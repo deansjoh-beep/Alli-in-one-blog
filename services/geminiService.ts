@@ -2,6 +2,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { ColorTheme, GeneratedContent, SupplementaryInfo } from '../types';
 
 const getAi = () => {
+  console.log("DEBUG: Full import.meta.env:", import.meta.env);
   // Access the API key from import.meta.env as confirmed by debug logs
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
