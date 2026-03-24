@@ -3,7 +3,8 @@ import { ColorTheme, GeneratedContent, SupplementaryInfo } from '../types';
 
 const getAi = () => {
   // Use process.env directly as the platform injects these at runtime
-  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+  // Fallback to import.meta.env for client-side access if needed
+  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY || (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_GEMINI_API_KEY);
   if (!apiKey) {
     throw new Error("API_KEY environment variable is not set.");
   }
